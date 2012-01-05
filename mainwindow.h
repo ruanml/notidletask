@@ -70,6 +70,7 @@ private:
     ISystemIdle * m_pIdleImplementation;
     QProcess m_Process;
     bool m_bJustDisabled;
+    bool m_bTrayMessageShown;
 
 private slots:
     void on_BUTTON_OK_clicked();
