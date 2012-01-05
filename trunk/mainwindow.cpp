@@ -28,7 +28,7 @@
 
     * @return initialized object
 */
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_pIdleImplementation(NULL), m_bJustDisabled(false)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_pIdleImplementation(NULL), m_bJustDisabled(false), m_bTrayMessageShown(false)
 {
     QString szValue     = "";
     int     nInterval   = 0;
@@ -74,7 +74,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // create image for the tray icon
     m_pImageItems = new QComboBox();
-    m_pImageItems->addItem(QIcon("appicon.ico"), tr("Main"));
+    m_pImageItems->addItem(QIcon(":/new/app/appicon.ico"), tr("Main"));
+    //m_pImageItems->addItem(QIcon("appicon.ico"), tr("Main"));
 
     QIcon icon = m_pImageItems->itemIcon(0);
     m_pTrayIcon->setIcon(icon);
@@ -87,9 +88,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     m_pTimer = new QTimer(this);
     connect(m_pTimer, SIGNAL(timeout()), this, SLOT(TimerUpdate()));
-    m_pTimer->start(1000);
+    m_pTimer->start(3000);
 
     RelaunchAction();
+
+    QWidget::setFixedSize(579, 172);
 }
 
 /**   D'tor of main window. Pretty much deystros everything
@@ -147,6 +150,14 @@ void MainWindow::on_BUTTON_OK_clicked()
     m_Configuration.Flush();
 
     hide();
+
+    if (m_bTrayMessageShown == false)
+    {
+        QSystemTrayIcon::MessageIcon icon;
+        m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
+
+        m_bTrayMessageShown = true;
+    }
 }
 
 /**   Handler of checkbox state change event
@@ -166,6 +177,14 @@ void MainWindow::on_CHECKBOX_KILL_APP_IF_EXIT_stateChanged(int nCheckState)
 void MainWindow::on_BUTTON_CANCEL_clicked()
 {
     hide();
+
+    if (m_bTrayMessageShown == false)
+    {
+        QSystemTrayIcon::MessageIcon icon;
+        m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
+
+        m_bTrayMessageShown = true;
+    }
 }
 
 /**   Handler of "Relaunch" menu item click event

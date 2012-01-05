@@ -16,3 +16,4 @@ HEADERS += mainwindow.h \
 FORMS += mainwindow.ui
 QT += xml
 LIBS += -lXss
+RESOURCES += images.qrc
