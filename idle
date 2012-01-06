@@ -1,0 +1,54 @@
+int CommonUtils::getUserIdle()
+{
+#if defined(Q_WS_X11)
+    XScreenSaverInfo *info = XScreenSaverAllocInfo();
+    if(!info)
+    {
+	return 0;
+    }
+ 
+    Display *display = QX11Info::display();
+    XScreenSaverQueryInfo(display, DefaultRootWindow(display), info);
+    int idle = info->idle;
+    XFree(info);
+    return idle;
+#elif defined(Q_WS_WIN)
+    LASTINPUTINFO lif;
+    lif.cbSize = sizeof(LASTINPUTINFO);
+ 
+    if(!GetLastInputInfo(&lif))
+    {
+	return 0;
+    }
+ 
+    return GetTickCount() - lif.dwTime;
+#elif defined(Q_WS_MAC)
+    int64_t idlesecs = 0;
+    io_iterator_t iter = 0;
+    if (IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOHIDSystem"), &iter) == KERN_SUCCESS)
+    {
+	io_registry_entry_t entry = IOIteratorNext(iter);
+	if (entry)
+	{
+	    CFMutableDictionaryRef dict = NULL;
+	    if (IORegistryEntryCreateCFProperties(entry, &dict, kCFAllocatorDefault, 0) == KERN_SUCCESS)
+	    {
+		CFNumberRef obj = (CFNumberRef)CFDictionaryGetValue(dict, CFSTR("HIDIdleTime"));
+		if (obj)
+		{
+		    int64_t nanoseconds = 0;
+		    if (CFNumberGetValue(obj, kCFNumberSInt64Type, &nanoseconds))
+		    {
+			idlesecs = (nanoseconds * 1000000); // Divide by 10^9 to convert from nanoseconds to seconds.
+		    }
+		}
+		CFRelease(dict);
+	    }
+	    IOObjectRelease(entry);
+	}
+	IOObjectRelease(iter);
+    }
+ 
+    return idlesecs;
+#endif
+}
