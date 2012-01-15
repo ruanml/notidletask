@@ -88,7 +88,7 @@ bool LinuxSystemIdle::CheckIdle(void)
     
     m_pConfiguration->getInterval(nInterval);
 
-    return (retVal >= nInterval);
+    return (retVal >= (unsigned int)nInterval);
 }
 
 #endif // #ifdef LINUX_BUILD

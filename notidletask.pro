@@ -14,7 +14,10 @@ HEADERS += mainwindow.h \
     linuxsystemidle.h \
     configuration.h \
     main.h \
-    windowssystemidle.h
+    windowssystemidle.h \
+    crosscompiling.h
 FORMS += mainwindow.ui
 QT += xml
+LIBS += -lXss
 RESOURCES += images.qrc
+CONFIG += static
