@@ -32,6 +32,9 @@ public:
     virtual void Start(void);
     virtual void Stop(void);
     virtual bool CheckIdle(void);
+
+private:
+
 };
 
 #endif // LINUXSYSTEMIDLE_H

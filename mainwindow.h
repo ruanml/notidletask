@@ -68,7 +68,7 @@ private:
 private:
     Configuration m_Configuration;
     ISystemIdle * m_pIdleImplementation;
-    QProcess m_Process;
+    QProcess *m_pProcess;
     bool m_bJustDisabled;
     bool m_bTrayMessageShown;
 

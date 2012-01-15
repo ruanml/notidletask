@@ -21,6 +21,10 @@
 
 #include "configuration.h"
 
+/**   C'tor of the configuration object
+
+    * @return initialized object
+*/
 Configuration::Configuration() : m_nInterval(CONFIGURATION_DEFAULT_VAL_INTERVAL), m_bKillWhenExiting(true), m_bParsedFile(false)
 {
     if (Parse() == false)
@@ -32,6 +36,10 @@ Configuration::Configuration() : m_nInterval(CONFIGURATION_DEFAULT_VAL_INTERVAL)
     }
 }
 
+/**   Storing configuration as XML file on a disk
+
+    * @return boolean
+*/
 bool Configuration::Flush()
 {
     QDomDocument doc(CONFIGURATION_NAME_ROOT);
@@ -78,6 +86,10 @@ bool Configuration::Flush()
     return false;
 }
 
+/**   Reading configuration as XML file from a disk to memory
+
+    * @return boolean
+*/
 bool Configuration::Parse()
 {
     QDomDocument doc(CONFIGURATION_NAME_ROOT);
@@ -131,11 +143,19 @@ bool Configuration::Parse()
     return m_bParsedFile;
 }
 
+/**   Indicating if configuration was parsed properly
+
+    * @return boolean
+*/
 bool Configuration::Parsed()
 {
     return m_bParsedFile;
 }
 
+/**   Getting path of a file to execute
+
+    * @return boolean
+*/
 bool Configuration::getFilePath(QString & szFilePath)
 {
     szFilePath = m_szFilePath;
@@ -143,6 +163,10 @@ bool Configuration::getFilePath(QString & szFilePath)
     return m_bParsedFile;
 }
 
+/**   Getting interval after which to terminate the running program
+
+    * @return boolean
+*/
 bool Configuration::getInterval(int & nInterval)
 {
     nInterval = m_nInterval;
@@ -150,6 +174,10 @@ bool Configuration::getInterval(int & nInterval)
     return m_bParsedFile;
 }
 
+/**   Setting interval after which to terminate the running program
+
+    * @return boolean
+*/
 bool Configuration::setInterval(int nInterval)
 {
     m_nInterval = nInterval;
@@ -157,6 +185,10 @@ bool Configuration::setInterval(int nInterval)
     return true;
 }
 
+/**   Setting path of file to execute
+
+    * @return boolean
+*/
 bool Configuration::setFilePath(QString & szFilePath)
 {
     m_szFilePath = szFilePath;
@@ -164,6 +196,10 @@ bool Configuration::setFilePath(QString & szFilePath)
     return true;
 }
 
+/**   Getting value of option "kill if exiting"
+
+    * @return boolean
+*/
 bool Configuration::getKillOpt(bool & bKillOpt)
 {
     bKillOpt = m_bKillWhenExiting;
@@ -171,6 +207,10 @@ bool Configuration::getKillOpt(bool & bKillOpt)
     return m_bParsedFile;
 }
 
+/**   Setting value for option "kill if exiting"
+
+    * @return boolean
+*/
 bool Configuration::setKillOpt(bool bKillOpt)
 {
     m_bKillWhenExiting = bKillOpt;

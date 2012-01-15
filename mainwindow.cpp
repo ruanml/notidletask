@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_pTrayIcon->setToolTip("Application is not set");
 
     m_pIdleImplementation = new LinuxSystemIdle(&m_Configuration);
+    m_pProcess = new QProcess();
 
     m_pTimer = new QTimer(this);
     connect(m_pTimer, SIGNAL(timeout()), this, SLOT(TimerUpdate()));
@@ -103,11 +104,15 @@ MainWindow::~MainWindow()
 {
     bool bKill = false;
 
+    m_pTimer->stop();
+    m_pTrayIcon->hide();
+
     m_Configuration.getKillOpt(bKill);
 
     if (bKill)
     {
-        m_Process.kill();
+        m_pProcess->kill();
+        //delete m_pProcess;
     }
 
     delete ui;
@@ -164,7 +169,7 @@ void MainWindow::on_BUTTON_OK_clicked()
 
     * @return void
 */
-void MainWindow::on_CHECKBOX_KILL_APP_IF_EXIT_stateChanged(int nCheckState)
+void MainWindow::on_CHECKBOX_KILL_APP_IF_EXIT_stateChanged(int)
 {
     //m_Configuration.setKillOpt(nCheckState == 0 ? false : true);
     //m_Configuration.Flush();
@@ -232,8 +237,9 @@ void MainWindow::RelaunchAction()
 
         qDebug() << szValue;
 
-        m_Process.kill();
-        m_Process.start(szValue, procParams);
+        m_pProcess->kill();
+        m_pProcess->start(szValue, procParams);
+
         m_pTrayIcon->setToolTip("Application is set");
 
         hide();
@@ -255,7 +261,7 @@ void MainWindow::PropertiesAction()
 */
 void MainWindow::AboutAction()
 {
-    QMessageBox::about(this, QObject::tr("notidletask"), QObject::tr("Not Idle Task ver 1.0.0.2 by Volodymyr Shcherbyna"));
+    QMessageBox::about(this, QObject::tr("notidletask"), QObject::tr("NotIdleTask (1.0.0.1) by Volodymyr Shcherbyna (www.shcherbyna.com)"));
 }
 
 /**   Handler of "Exit" menu item click event
@@ -264,15 +270,22 @@ void MainWindow::AboutAction()
 */
 void MainWindow::ExitAction()
 {
-    this->close();
+    close();
 }
 
+/**   Handler of a timer routine
+
+    * @return void
+*/
 void MainWindow::TimerUpdate()
 {
     if (m_pIdleImplementation->CheckIdle())
     {
-        m_Process.kill();
-        m_bJustDisabled = true;
+        if (m_bJustDisabled == false)
+        {
+            m_pProcess->kill();
+            m_bJustDisabled = true;
+        }
     }
     else if (m_bJustDisabled)
     {

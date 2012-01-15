@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     if (!QSystemTrayIcon::isSystemTrayAvailable())
     {
-        QMessageBox::critical(0, QObject::tr("Problem with System Tray"), QObject::tr("Unable to locate system tray functionality."));
+        QMessageBox::critical(0, QObject::tr("Problem with System Tray functionality"), QObject::tr("Unable to locate system tray functionality."));
 
         return (0x01);
     }
