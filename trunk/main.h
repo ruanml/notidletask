@@ -23,6 +23,6 @@
 #define MAIN_H
 
 #include "configuration.h"
-#include "linuxsystemidle.h"
+#include "isystemidle.h"
 
 #endif // MAIN_H
