@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new/app">
+        <file>appicon.ico</file>
+    </qresource>
+</RCC>
