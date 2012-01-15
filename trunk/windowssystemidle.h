@@ -19,9 +19,9 @@
  *  along with notidletask.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define WINDOWS_BUILD
+//#define WINDOWS_BUILD
 
-//#ifdef WINDOWS_BUILD
+#ifdef WINDOWS_BUILD
 
 #ifndef WINDOWSSYSTEMIDLE_H
 #define WINDOWSSYSTEMIDLE_H
@@ -41,4 +41,4 @@ public:
 
 #endif // WINDOWSSYSTEMIDLE_H
 
-//#endif // WINDOWS_BUILD
+#endif // WINDOWS_BUILD

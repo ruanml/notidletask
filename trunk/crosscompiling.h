@@ -1,5 +1,5 @@
 /*
- *  notidletask - implementation of idle detection under Linux
+ *  notidletask - implementation of cross-compiling configuration of an application
  *
  *  Copyright (C) 2012 by Volodymyr M. Shcherbyna <volodymyr@shcherbyna.com>
  *
@@ -19,26 +19,5 @@
  *  along with notidletask.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "isystemidle.h"
-
-#ifdef LINUX_BUILD
-
-#ifndef LINUXSYSTEMIDLE_H
-#define LINUXSYSTEMIDLE_H
-
-class LinuxSystemIdle : public ISystemIdle
-{
-public:
-    LinuxSystemIdle(Configuration * pConfiguration);
-public:
-    virtual void Start(void);
-    virtual void Stop(void);
-    virtual bool CheckIdle(void);
-
-private:
-
-};
-
-#endif // LINUXSYSTEMIDLE_H
-
-#endif // LINUX_BUILD
+/// I want to compile for Linux
+#define LINUX_BUILD

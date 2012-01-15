@@ -19,10 +19,13 @@
  *  along with notidletask.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "crosscompiling.h"
+
 #ifndef ISYSTEMIDLE_H
 #define ISYSTEMIDLE_H
 
 #include <qobject.h>
+
 #include "configuration.h"
 
 typedef unsigned long TimeSnapshot;

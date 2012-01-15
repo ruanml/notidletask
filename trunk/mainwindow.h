@@ -54,6 +54,7 @@ private slots:
      void AboutAction();
      void ExitAction();
      void TimerUpdate();
+     void on_IconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     Ui::MainWindow  *ui;
@@ -65,6 +66,7 @@ private:
     QAction *m_pExitAction;
     QComboBox * m_pImageItems;
     QTimer    * m_pTimer;
+
 private:
     Configuration m_Configuration;
     ISystemIdle * m_pIdleImplementation;

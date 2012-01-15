@@ -19,26 +19,42 @@
  *  along with notidletask.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//#ifdef WINDOWS_BUILD
+#ifdef WINDOWS_BUILD
 
 #include "windowssystemidle.h"
 
 #include <windows.h>
 
+/**   C'tor of the object
+
+    * @return initialized object
+*/
 WindowsSystemIdle::WindowsSystemIdle(Configuration * pConfiguration) : ISystemIdle::ISystemIdle(pConfiguration)
 {
 }
 
+/**   Start routine: not implemented for the moment
+
+    * @return void
+*/
 void WindowsSystemIdle::Start(void)
 {
 
 }
 
+/**   Stop routine: not implemented for the moment
+
+    * @return void
+*/
 void WindowsSystemIdle::Stop(void)
 {
 
 }
 
+/**   Platform specific routine for checking the idle state
+
+    * @return bool
+*/
 bool WindowsSystemIdle::CheckIdle(void)
 {
     LASTINPUTINFO inputInfo  = {0};
@@ -65,4 +81,4 @@ bool WindowsSystemIdle::CheckIdle(void)
     return (dwTicksNow >= nInterval);
 }
 
-//#endif // WINDOWS_BUILD
+#endif // WINDOWS_BUILD

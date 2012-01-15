@@ -21,6 +21,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "isystemidle.h"
 #include "linuxsystemidle.h"
 #include "windowssystemidle.h"
@@ -73,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_pTrayIcon = new QSystemTrayIcon(this);
     m_pTrayIcon->setContextMenu(m_pTrayIconMenu);
 
+    connect(m_pTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_IconActivated(QSystemTrayIcon::ActivationReason)));
+
     // create image for the tray icon
     m_pImageItems = new QComboBox();
     m_pImageItems->addItem(QIcon(":/new/app/appicon.ico"), tr("Main"));
@@ -85,13 +88,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_pTrayIcon->show();
     m_pTrayIcon->setToolTip("Application is not set");
 
-/*#ifdef LINUX_BUILD
+#ifdef LINUX_BUILD
     m_pIdleImplementation = new LinuxSystemIdle(&m_Configuration);
 #elif defined WINDOWS_BUILD
     m_pIdleImplementation = new WindowsSystemIdle(&m_Configuration);
 #endif
-*/
-    m_pIdleImplementation = new WindowsSystemIdle(&m_Configuration);
 
     m_pProcess = new QProcess();
 
@@ -166,7 +167,7 @@ void MainWindow::on_BUTTON_OK_clicked()
 
     if (m_bTrayMessageShown == false)
     {
-        QSystemTrayIcon::MessageIcon icon;
+        //QSystemTrayIcon::MessageIcon icon;
         //m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
 
         m_bTrayMessageShown = true;
@@ -193,7 +194,7 @@ void MainWindow::on_BUTTON_CANCEL_clicked()
 
     if (m_bTrayMessageShown == false)
     {
-        QSystemTrayIcon::MessageIcon icon;
+        //QSystemTrayIcon::MessageIcon icon;
         //m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
 
         m_bTrayMessageShown = true;
@@ -269,7 +270,10 @@ void MainWindow::PropertiesAction()
 */
 void MainWindow::AboutAction()
 {
-    QMessageBox::about(this, QObject::tr("notidletask"), QObject::tr("NotIdleTask (1.0.0.1) by Volodymyr Shcherbyna (www.shcherbyna.com)"));
+    QMessageBox msgBox;
+
+    msgBox.setText("NotIdleTask (1.0.0.1) by Volodymyr Shcherbyna, <a href='www.shcherbyna.com'>www.shcherbyna.com</a>");
+    msgBox.exec();
 }
 
 /**   Handler of "Exit" menu item click event
@@ -298,5 +302,17 @@ void MainWindow::TimerUpdate()
     else if (m_bJustDisabled)
     {
         RelaunchAction();
+    }
+}
+
+/**   Handler of click events of a tray icon
+
+    * @return void
+*/
+void MainWindow::on_IconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+    {
+        show();
     }
 }
