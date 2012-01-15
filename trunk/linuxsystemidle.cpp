@@ -25,21 +25,37 @@
 #include <X11/Xutil.h>
 #include <X11/extensions/scrnsaver.h>
 
+/**   C'tor of the object
+
+    * @return initialized object
+*/
 LinuxSystemIdle::LinuxSystemIdle(Configuration * pConfiguration) : ISystemIdle::ISystemIdle(pConfiguration)
 {
 
 }
 
+/**   Start routine: not implemented for the moment
+
+    * @return void
+*/
 void LinuxSystemIdle::Start(void)
 {
 
 }
 
+/**   Stop routine: not implemented for the moment
+
+    * @return void
+*/
 void LinuxSystemIdle::Stop(void)
 {
 
 }
 
+/**   Platform specific routine for checking the idle state
+
+    * @return bool
+*/
 bool LinuxSystemIdle::CheckIdle(void)
 {
     TimeSnapshot retVal  = 0;
@@ -65,6 +81,10 @@ bool LinuxSystemIdle::CheckIdle(void)
 
     XFree(pIdleInfo);
     XCloseDisplay(pDisplay);
+    
+    int nInterval = 0;
+    
+    m_pConfiguration->getInterval(nInterval);
 
-    return (retVal > 120);
+    return (retVal >= nInterval);
 }

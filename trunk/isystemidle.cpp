@@ -21,7 +21,10 @@
 
 #include "isystemidle.h"
 
+/**   C'tor of the object
+
+    * @return initialized object
+*/
 ISystemIdle::ISystemIdle(Configuration * pConfiguration) : m_pConfiguration(pConfiguration)
 {
-
 }
