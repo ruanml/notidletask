@@ -23,6 +23,7 @@
 #include "ui_mainwindow.h"
 #include "isystemidle.h"
 #include "linuxsystemidle.h"
+#include "windowssystemidle.h"
 
 /**   C'tor of main window. It builds the UI layout and shows up the main window
 
@@ -84,7 +85,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_pTrayIcon->show();
     m_pTrayIcon->setToolTip("Application is not set");
 
+/*#ifdef LINUX_BUILD
     m_pIdleImplementation = new LinuxSystemIdle(&m_Configuration);
+#elif defined WINDOWS_BUILD
+    m_pIdleImplementation = new WindowsSystemIdle(&m_Configuration);
+#endif
+*/
+    m_pIdleImplementation = new WindowsSystemIdle(&m_Configuration);
+
     m_pProcess = new QProcess();
 
     m_pTimer = new QTimer(this);
@@ -93,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     RelaunchAction();
 
-    QWidget::setFixedSize(579, 172);
+    QWidget::setFixedSize(581, 197);
 }
 
 /**   D'tor of main window. Pretty much deystros everything
@@ -159,7 +167,7 @@ void MainWindow::on_BUTTON_OK_clicked()
     if (m_bTrayMessageShown == false)
     {
         QSystemTrayIcon::MessageIcon icon;
-        m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
+        //m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
 
         m_bTrayMessageShown = true;
     }
@@ -186,7 +194,7 @@ void MainWindow::on_BUTTON_CANCEL_clicked()
     if (m_bTrayMessageShown == false)
     {
         QSystemTrayIcon::MessageIcon icon;
-        m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
+        //m_pTrayIcon->showMessage("NotIdleTask", "Application is running in tray since now", icon, 6000);
 
         m_bTrayMessageShown = true;
     }

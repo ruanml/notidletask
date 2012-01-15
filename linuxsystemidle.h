@@ -19,6 +19,8 @@
  *  along with notidletask.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifdef LINUX_BUILD
+
 #ifndef LINUXSYSTEMIDLE_H
 #define LINUXSYSTEMIDLE_H
 
@@ -38,3 +40,5 @@ private:
 };
 
 #endif // LINUXSYSTEMIDLE_H
+
+#endif // LINUX_BUILD

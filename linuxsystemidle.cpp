@@ -21,6 +21,8 @@
 
 #include "linuxsystemidle.h"
 
+#ifdef LINUX_BUILD
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/scrnsaver.h>
@@ -88,3 +90,5 @@ bool LinuxSystemIdle::CheckIdle(void)
 
     return (retVal >= nInterval);
 }
+
+#endif // #ifdef LINUX_BUILD

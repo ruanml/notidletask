@@ -7,13 +7,14 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     linuxsystemidle.cpp \
     isystemidle.cpp \
-    configuration.cpp
+    configuration.cpp \
+    windowssystemidle.cpp
 HEADERS += mainwindow.h \
     isystemidle.h \
     linuxsystemidle.h \
     configuration.h \
-    main.h
+    main.h \
+    windowssystemidle.h
 FORMS += mainwindow.ui
 QT += xml
-LIBS += -lXss
 RESOURCES += images.qrc
